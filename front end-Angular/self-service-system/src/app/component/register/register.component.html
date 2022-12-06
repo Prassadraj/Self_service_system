@@ -1,0 +1,102 @@
+﻿<h2>
+    Register
+</h2>
+<form [formGroup]="setupForm">
+    <div class="form-group">
+        <label>First Name
+            <span class="text-danger">*</span>
+        </label>
+        <input type="text" placeholder="Enter first name." formControlName="firstName" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('firstName').errors && (setupForm.get('firstName').touched || setupForm.get('firstName').dirty) }" />
+        <div
+            *ngIf="setupForm.get('firstName').errors && (setupForm.get('firstName').touched || setupForm.get('firstName').dirty)">
+            <small *ngIf="setupForm.get('firstName').errors.required" class="text-danger"> First name is
+                required.</small>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Last Name
+            <span class="text-danger">*</span>
+
+        </label>
+        <input type="text" placeholder="Enter last name." formControlName="lastName" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('lastName').errors && (setupForm.get('lastName').touched || setupForm.get('lastName').dirty) }" />
+        <div
+            *ngIf="setupForm.get('lastName').errors && (setupForm.get('lastName').touched || setupForm.get('lastName').dirty)">
+            <small *ngIf="setupForm.get('lastName').errors.required" class="text-danger"> Last name is required.</small>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>MobileNo
+            <span class="text-danger">*</span>
+        </label>
+        <input type="number" placeholder="Enter mobile number." formControlName="mobileNo" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('mobileNo').errors && (setupForm.get('mobileNo').touched || setupForm.get('mobileNo').dirty) }" />
+        <div
+            *ngIf="setupForm.get('mobileNo').errors && (setupForm.get('mobileNo').touched || setupForm.get('mobileNo').dirty)">
+            <small *ngIf="setupForm.get('mobileNo').errors.required" class="text-danger"> MobileNo is required.</small>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>User Name
+            <span class="text-danger">*</span>
+
+        </label>
+        <input type="text" placeholder="Enter EmailId." formControlName="userId" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('userId').errors && (setupForm.get('userId').touched || setupForm.get('userId').dirty) }" />
+        <div
+            *ngIf="setupForm.get('userId').errors && (setupForm.get('userId').touched || setupForm.get('userId').dirty)">
+            <small *ngIf="setupForm.get('userId').errors.required" class="text-danger"> User name is required.</small>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label>Enter Password
+            <span class="text-danger"> *</span>
+        </label>
+        <input type="text" placeholder="Enter password." formControlName="password" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('password').errors && (setupForm.get('password').touched || setupForm.get('password').dirty) }"
+            (blur)="confirmPswd()" />
+        <div
+            *ngIf="setupForm.get('password').errors && (setupForm.get('password').touched || setupForm.get('password').dirty)">
+            <small *ngIf="setupForm.get('password').errors.required" class="text-danger"> Password is required.</small>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Confirm Password
+            <span class="text-danger"> *</span>
+        </label>
+        <input type="text" placeholder="Re-Enter password." formControlName="confirmPswd" class="form-control"
+            (blur)="confirmPswd()"
+            [ngClass]="{'is-invalid': setupForm.get('confirmPswd').errors && (setupForm.get('confirmPswd').touched || setupForm.get('confirmPswd').dirty) }" />
+        <div
+            *ngIf="setupForm.get('confirmPswd').errors && (setupForm.get('confirmPswd').touched || setupForm.get('confirmPswd').dirty)">
+            <small *ngIf="setupForm.get('confirmPswd').errors.required" class="text-danger">Confirm Password is
+                required.</small>
+        </div>
+    </div>
+    <ng-container formArrayName="answerDto" *ngFor="let questions of getFormControls.controls ; let i=index">
+
+        <div [formGroupName]="i" class="form-group">
+
+            {{i+1}}.
+            <label for="">{{questions?.get('question').value}}</label>
+            <input type="text" formControlName="answer" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && questions.get('answer')?.errors }" />
+            <div *ngIf="submitted && questions.get('answer')?.errors" class="invalid-feedback">
+                <div *ngIf="questions.get('answer')?.errors?.required" class="text-danger">Enter valid answer.</div>
+            </div>
+        </div>
+    </ng-container>
+
+
+
+    <div class="form-group text-center">
+        <button type="reset" class="btn btn-warning">Reset</button>
+        <button [disabled]="loading || !setupForm.valid " class="btn btn-primary ml-3" (click)="submitForm()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Submit
+        </button>
+
+    </div>
+</form>

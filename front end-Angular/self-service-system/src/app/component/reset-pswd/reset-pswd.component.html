@@ -1,0 +1,44 @@
+<h2>SetUp Password</h2>
+<form [formGroup]="setupForm">
+
+
+
+    <div class="form-group">
+        <label>User Name
+            <span class="text-danger">*</span>
+
+        </label>
+        <input type="text" placeholder="Enter EmailId." formControlName="userId" class="form-control"
+            [ngClass]="{'is-invalid': setupForm.get('userId').errors && (setupForm.get('userId').touched || setupForm.get('userId').dirty) }" />
+        <div
+            *ngIf="setupForm.get('userId').errors && (setupForm.get('userId').touched || setupForm.get('userId').dirty)">
+            <small *ngIf="setupForm.get('userId').errors.required" class="text-danger"> User name is required.</small>
+        </div>
+
+    </div>
+
+    <ng-container formArrayName="answerDto" *ngFor="let questions of getFormControls.controls ; let i=index">
+
+        <div [formGroupName]="i" class="form-group">
+
+            {{i+1}}.
+            <label for="">{{questions?.get('question').value}}</label>
+            <input type="text" formControlName="answer" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && questions.get('answer')?.errors }" />
+            <div *ngIf="submitted && questions.get('answer')?.errors" class="invalid-feedback">
+                <div *ngIf="questions.get('answer')?.errors?.required" class="text-danger">Enter valid answer.</div>
+            </div>
+        </div>
+    </ng-container>
+
+
+
+    <div class="form-group text-center">
+        <button type="reset" class="btn btn-warning">Reset</button>
+        <button [disabled]="loading || !setupForm.valid " class="btn btn-primary ml-3" (click)="submitForm()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Submit
+        </button>
+
+    </div>
+</form>
